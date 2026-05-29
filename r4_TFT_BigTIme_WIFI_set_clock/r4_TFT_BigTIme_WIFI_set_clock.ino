@@ -131,8 +131,10 @@ Theme themes[] = {
   // 7 — TERMINAL GREEN THEME
   // Black CRT background, bright green time, dark green seconds, mint date, green accents
   { RGB(0, 0, 0), RGB(0, 255, 0), RGB(0, 180, 0), RGB(0, 255, 120), RGB(0, 255, 0) },
+  // // 8 — CUSTOM1 THEME
+  // { randColor(), randColor(), randColor(), randColor(), randColor() },
   // 8 — CUSTOM1 THEME
-  { randColor(), randColor(), randColor(), randColor(), randColor() },
+  { DKGREEN, LTGREY, RED, AZURE, COLOR_CYAN },
   // 9 — CUSTOM2 THEME
   { RGB(15, 30, 60), BROWN, ARDUINO_GREEN, AZURE, ORANGE }
 };
