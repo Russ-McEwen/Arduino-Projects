@@ -138,7 +138,7 @@ Theme themes[] = {
   // 8 — CUSTOM1 THEME
   { DKGREEN, LTGREY, RED, AZURE, COLOR_CYAN },
   // 9 — CUSTOM2 THEME
-  { RGB(15, 30, 60), BROWN, ARDUINO_GREEN, AZURE, ORANGE }
+  { RGB(15, 30, 60), ORANGE, ARDUINO_GREEN, AZURE, ORANGE }
 };
 int currentThemeIndex = 0;
 // ---------- Forward declarations ----------
@@ -161,16 +161,19 @@ void syncTimeFromNTP() {
     epoch = getNTP();
     if (epoch != 0) break;
     tft.fillScreen(DKBLUE);
+    tft.setFont(&Orbitron_VariableFont_wght24pt7b);
     tft.setTextColor(OLIVE);
-    tft.setTextSize(4);
-    tft.setCursor(16, 12);
+    tft.setTextSize(1);
+    tft.setCursor(16, 42);
     tft.print("RUSSCLOX");
+    tft.setFont();
+    tft.setCursor(18, 52);
     tft.setTextColor(WHITE);
     tft.setTextSize(2);
-    tft.print(" Diagnostics");
+    tft.print("Diagnostics");
     tft.setTextColor(CHARTRUSE);
     tft.setTextSize(2);
-    tft.setCursor(16, 52);
+    tft.setCursor(18, 82);
     //   tft.print("Connecting WIFI...");
     // tft.setTextSize(1);
     // tft.setCursor(40, 30);
@@ -219,13 +222,15 @@ void drawHUDFrame() {
   // Top bar
   tft.fillRect(0, 0, 480, 40, RGB(5, 15, 35));
   tft.drawRect(0, 0, 480, 40, th.accent);
+  tft.setFont(&Orbitron_VariableFont_wght12pt7b);
   tft.setTextColor(th.timeColor);
-  tft.setTextSize(2);
-  tft.setCursor(16, 12);
+  tft.setTextSize(1);
+  tft.setCursor(12, 28);
   tft.print("RUSSCLOX v2");
+  tft.setFont();
   tft.setTextColor(th.dateColor);
   tft.setTextSize(1);
-  tft.setCursor(200, 16);
+  tft.setCursor(240, 16);
   tft.print("UNO R4 WiFi  |  NTP SYNC");
   // Bottom bar
   tft.fillRect(0, 280, 480, 40, RGB(5, 15, 35));
