@@ -16,6 +16,8 @@
 #include <DIYables_TFT_Touch_Shield.h>
 #include <WiFiS3.h>
 #include <RTC.h>
+#include "Orbitron_VariableFont_wght24pt7b.h"
+#include "Orbitron_VariableFont_wght12pt7b.h"
 // ---------- TFT ----------
 DIYables_TFT_RM68140_Shield tft;
 // ---------- WiFi ----------
@@ -370,19 +372,47 @@ void displayClock() {
     tft.setCursor(442, 29);
     tft.print(WiFi.RSSI());
   }
-  tft.setTextColor(th.timeColor, th.bg);
-  tft.setTextSize(10);
-  tft.setCursor(78, 105);
-  tft.print(timeBuffer);
+
+  // ----- CLEAR TIME AREA -----
+  // tft.fillRect(0, 100, 480, 120, th.bg);
+
+  // ----- BUILD TIME STRING -----
+  // char timeBuffer[10];
   bool colonOn = (second % 2 == 0);
-  int colonX = 100 + 95;
-  int colonY = 105;
-  if (colonOn) {
-    tft.setCursor(colonX, colonY);
-    tft.print(":");
+
+  if (setting_24h) {
+    sprintf(timeBuffer, colonOn ? "%02d:%02d" : "%02d %02d", hour, minute);
   } else {
-    tft.fillRect(colonX, colonY, 30, 60, th.bg);
+    int h12 = (hour % 12 == 0) ? 12 : (hour % 12);
+    sprintf(timeBuffer, colonOn ? "%2d:%02d" : "%2d %02d", h12, minute);
   }
+
+  // ----- DRAW TIME -----
+  tft.setFont(&Orbitron_VariableFont_wght24pt7b);
+  tft.setTextSize(2);
+  tft.setTextColor(th.timeColor);
+  tft.setCursor(80, 185);
+  tft.fillRect(55, 110, 370, 90, th.bg);
+  tft.print(timeBuffer);
+
+
+  // tft.fillRect(75, 110, 300, 90, COLOR_GREEN);
+  // tft.setFont(&Orbitron_VariableFont_wght24pt7b);
+  // tft.setTextColor(th.timeColor, th.bg);
+  // tft.setTextSize(2);
+  // tft.setCursor(90, 185);
+  // tft.print(timeBuffer);
+  // bool colonOn = (second % 2 == 0);
+  // int colonX = 100 + 95;
+  // int colonY = 185;
+  // if (colonOn) {
+  //   tft.setCursor(colonX, colonY);
+  //   tft.print(":");
+  // } else {
+  //   // tft.fillRect(colonX, colonY, 30, 60, th.bg);
+  // }
+  tft.setFont();
+
   if (!setting_24h) {
     tft.setTextColor(th.secColor, th.bg);
     tft.setTextSize(3);
@@ -401,7 +431,7 @@ void displayClock() {
   }
   tft.setTextColor(th.dateColor, th.bg);
   tft.setTextSize(3);
-  tft.setCursor(70, 210);
+  tft.setCursor(80, 210);
   tft.print(dateBuffer);
 }
 // ---------- Touch ----------
