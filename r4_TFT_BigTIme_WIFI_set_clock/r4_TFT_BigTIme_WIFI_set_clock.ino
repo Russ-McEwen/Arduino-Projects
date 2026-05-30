@@ -372,21 +372,20 @@ void displayClock() {
           day, year);
   if (setting_showWiFi) drawWiFiIndicator();
   if (setting_showWiFi) {
-    tft.setTextColor(COLOR_WHITE, RGB(5, 15, 35));
+    tft.setTextColor(YELLOW, RGB(5, 15, 35));
     tft.setTextSize(1);
-    tft.setCursor(442, 29);
+    tft.setCursor(428, 29);
+    tft.print("rssi:");
+    tft.setTextColor(COLOR_WHITE, RGB(5, 15, 35));
     tft.print(WiFi.RSSI());
   }
-
-  // ----- CLEAR TIME AREA -----
-  // tft.fillRect(0, 100, 480, 120, th.bg);
 
   // ----- BUILD TIME STRING -----
   // char timeBuffer[10];
   bool colonOn = (second % 2 == 0);
 
   if (setting_24h) {
-    sprintf(timeBuffer, colonOn ? "%02d:%02d" : "%02d %02d", hour, minute);
+    sprintf(timeBuffer, colonOn ? "%02d:%02d" : "%02d_%02d", hour, minute);
   } else {
     int h12 = (hour % 12 == 0) ? 12 : (hour % 12);
     sprintf(timeBuffer, colonOn ? "%2d:%02d" : "%2d %02d", h12, minute);
@@ -398,6 +397,7 @@ void displayClock() {
   tft.setTextColor(th.timeColor);
   tft.setCursor(80, 185);
   tft.fillRect(55, 110, 370, 90, th.bg);
+  // if (second == 0) tft.fillRect(55, 110, 370, 90, th.bg);
   tft.print(timeBuffer);
 
 
@@ -424,7 +424,6 @@ void displayClock() {
     tft.setCursor(390, 155);
     tft.print(ampm);
   } else {
-    // tft.fillRect(360, 150, 80, 30, th.bg);
   }
   if (setting_showSeconds) {
     tft.setTextColor(th.secColor, th.bg);
@@ -432,7 +431,6 @@ void displayClock() {
     tft.setCursor(385, 80);
     tft.print(secBuffer);
   } else {
-    // tft.fillRect(360, 100, 80, 40, th.bg);
   }
   tft.setTextColor(th.dateColor, th.bg);
   tft.setTextSize(3);
