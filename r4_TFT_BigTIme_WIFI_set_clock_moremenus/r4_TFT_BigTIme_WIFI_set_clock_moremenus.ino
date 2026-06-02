@@ -11,10 +11,11 @@
   |───────────────────────────────────────────────────────────────────|
   |                    😎 Russ McEwen 5/23/26                         |
   |                   Posted to GitHub 5/31/26                        |
+  |          Added ABOUT box & VERSION def- RJM 6/2/26                |
   |───────────────────────────────────────────────────────────────────|
   └───────────────────────────────────────────────────────────────────┘
 */
-
+#define VERSION 3
 #include <DIYables_TFT_Touch_Shield.h>
 #include <WiFiS3.h>
 #include <RTC.h>
@@ -41,7 +42,8 @@ enum PopupMode {
   POPUP_NONE,
   POPUP_THEME,
   POPUP_SETTINGS,
-  POPUP_THEME2
+  POPUP_THEME2,
+  ABOUT_BOX
 };
 PopupMode popupMode = POPUP_NONE;
 
@@ -134,24 +136,24 @@ const char *popup2Names[] = {
 
 Theme themes[] = {
   //{ background, main time color, seconds/AMPM color, date text color, accent color }
-  { RGB(5,10,25), RGB(0,255,200), RGB(255,80,120), RGB(160,200,255), RGB(0,120,255) }, // 0 Night
-  { RGB(15,30,60), RGB(255,255,255), RGB(255,200,80), RGB(200,230,255), RGB(80,180,255) }, // 1 Morning
-  { RGB(10,25,45), RGB(0,255,180), RGB(255,120,80), RGB(180,220,255), RGB(0,150,255) }, // 2 Day
-  { RGB(5,8,20), ORANGE, ARDUINO_GREEN, RGB(200,200,255), RGB(120,80,255) }, // 3 Evening
-  { RGB(0,0,0), RGB(0,255,180), RGB(255,0,120), RGB(0,200,255), RGB(0,255,255) }, // 4 Neon
-  { RGB(30,10,5), RGB(255,120,40), RGB(255,80,60), RGB(255,200,150), RGB(255,120,80) }, // 5 Sunset
-  { RGB(5,20,40), RGB(180,255,255), RGB(10,200,255), RGB(200,230,255), RGB(80,180,255) }, // 6 Arctic
-  { RGB(0,0,0), RGB(0,255,0), RGB(0,180,0), RGB(0,255,120), RGB(0,255,0) }, // 7 Terminal
-  { DKGREEN, LTGREY, RED, AZURE, COLOR_CYAN }, // 8 Custom1 Use any of the Human Readable colors from above.
-  { RGB(15,30,60), ORANGE, ARDUINO_GREEN, AZURE, ORANGE }, // 9 Custom2
-  { RGB(0,0,40), RGB(0,180,255), RGB(255,80,200), RGB(180,220,255), RGB(0,120,255) }, // 10 CyberBlue
-  { RGB(10,5,0), RGB(255,180,40), RGB(255,80,40), RGB(255,200,150), RGB(255,120,40) }, // 11 RetroAmber
-  { RGB(20,0,40), RGB(255,120,255), RGB(0,255,200), RGB(255,200,255), RGB(120,80,255) }, // 12 Vaporwave
-  { RGB(0,0,0), RGB(0,255,0), RGB(0,180,0), RGB(0,255,120), RGB(0,120,0) }, // 13 Matrix
-  { RGB(0,10,30), RGB(0,200,255), RGB(0,120,200), RGB(180,220,255), RGB(0,80,160) }, // 14 DeepSea
-  { RGB(30,5,0), RGB(255,200,80), RGB(255,80,0), RGB(255,220,160), RGB(255,140,40) }, // 15 SolarStorm
-  { RGB(5,10,25), RGB(180,255,255), RGB(255,80,60), RGB(200,230,255), RGB(0,200,255) }, // 16 IceFire
-  { RGB(10,0,30), RGB(255,120,200), RGB(0,255,180), RGB(255,200,255), RGB(120,80,255) } // 17 Synthwave
+  { RGB(5, 10, 25), RGB(0, 255, 200), RGB(255, 80, 120), RGB(160, 200, 255), RGB(0, 120, 255) },      // 0 Night
+  { RGB(15, 30, 60), RGB(255, 255, 255), RGB(255, 200, 80), RGB(200, 230, 255), RGB(80, 180, 255) },  // 1 Morning
+  { RGB(10, 25, 45), RGB(0, 255, 180), RGB(255, 120, 80), RGB(180, 220, 255), RGB(0, 150, 255) },     // 2 Day
+  { RGB(5, 8, 20), ORANGE, ARDUINO_GREEN, RGB(200, 200, 255), RGB(120, 80, 255) },                    // 3 Evening
+  { RGB(0, 0, 0), RGB(0, 255, 180), RGB(255, 0, 120), RGB(0, 200, 255), RGB(0, 255, 255) },           // 4 Neon
+  { RGB(30, 10, 5), RGB(255, 120, 40), RGB(255, 80, 60), RGB(255, 200, 150), RGB(255, 120, 80) },     // 5 Sunset
+  { RGB(5, 20, 40), RGB(180, 255, 255), RGB(10, 200, 255), RGB(200, 230, 255), RGB(80, 180, 255) },   // 6 Arctic
+  { RGB(0, 0, 0), RGB(0, 255, 0), RGB(0, 180, 0), RGB(0, 255, 120), RGB(0, 255, 0) },                 // 7 Terminal
+  { DKGREEN, LTGREY, RED, AZURE, COLOR_CYAN },                                                        // 8 Custom1 Use any of the Human Readable colors from above.
+  { RGB(15, 30, 60), ORANGE, ARDUINO_GREEN, AZURE, ORANGE },                                          // 9 Custom2
+  { RGB(0, 0, 40), RGB(0, 180, 255), RGB(255, 80, 200), RGB(180, 220, 255), RGB(0, 120, 255) },       // 10 CyberBlue
+  { RGB(10, 5, 0), RGB(255, 180, 40), RGB(255, 80, 40), RGB(255, 200, 150), RGB(255, 120, 40) },      // 11 RetroAmber
+  { RGB(20, 0, 40), RGB(255, 120, 255), RGB(0, 255, 200), RGB(255, 200, 255), RGB(120, 80, 255) },    // 12 Vaporwave
+  { RGB(0, 0, 0), RGB(0, 255, 0), RGB(0, 180, 0), RGB(0, 255, 120), RGB(0, 120, 0) },                 // 13 Matrix
+  { RGB(0, 10, 30), RGB(0, 200, 255), RGB(0, 120, 200), RGB(180, 220, 255), RGB(0, 80, 160) },        // 14 DeepSea
+  { RGB(30, 5, 0), RGB(255, 200, 80), RGB(255, 80, 0), RGB(255, 220, 160), RGB(255, 140, 40) },       // 15 SolarStorm
+  { RGB(5, 10, 25), RGB(180, 255, 255), RGB(255, 80, 60), RGB(200, 230, 255), RGB(0, 200, 255) },     // 16 IceFire
+  { RGB(10, 0, 30), RGB(255, 120, 200), RGB(0, 255, 180), RGB(255, 200, 255), RGB(120, 80, 255) }     // 17 Synthwave
 };
 
 int currentThemeIndex = 0;
@@ -250,7 +252,8 @@ void drawHUDFrame() {
   tft.setTextColor(th.timeColor);
   tft.setTextSize(1);
   tft.setCursor(12, 28);
-  tft.print("RUSSCLOX v2");
+  tft.print("RUSSCLOX v");
+  tft.print(VERSION);
 
   tft.setFont();
   tft.setTextColor(th.dateColor);
@@ -377,6 +380,56 @@ void drawSettingsPanel() {
   tft.print("Back");
 }
 
+/*|------------------------------------------------------------------|
+  |--------------------------- About Box ----------------------------|
+  |------------------------------------------------------------------|*/
+void aboutBox() {
+  popupMode = ABOUT_BOX;
+  popupVisible = true;
+  Theme &th = themes[currentThemeIndex];
+  tft.setFont(&Orbitron_VariableFont_wght24pt7b);
+  tft.fillRect(20, 40, 440, 240, RGB(5, 15, 35));
+  tft.drawRect(20, 40, 440, 240, th.accent);
+  tft.setTextSize(1);
+  tft.setTextColor(th.timeColor);
+  tft.setCursor(40, 79);
+  tft.print("ABOUT");
+  tft.setFont(&Orbitron_VariableFont_wght12pt7b);
+  tft.setTextColor(OLIVE);
+  tft.setTextSize(2);
+  tft.setCursor(40, 121);
+  // tft.setTextColor(th.accent);
+  tft.print("RUSSCLOX");
+  tft.setTextSize(1);
+  tft.setTextColor(th.dateColor);
+  tft.setCursor(40, 148);
+  tft.print("AUTO-THEME Digital Clock");
+  tft.setFont();
+  tft.setTextSize(2);
+  tft.setTextColor(th.timeColor);
+  tft.setCursor(40, 165);
+  tft.print("Automatic theme setting based on");
+  tft.setCursor(40, 195);
+  tft.println("the time of day. Tap [THEME] to");
+  tft.setCursor(40, 225);
+  tft.println("manually choose from 18 themes!");
+  tft.setTextColor(YELLOW);
+  tft.setCursor(315, 260);
+  tft.print("RUSSCLOX v");
+  tft.setTextColor(WHITE);
+  tft.print(VERSION);
+
+  // Exit Button
+  tft.fillRect(400, 40, 60, 50, th.bg);
+  tft.drawRect(400, 40, 60, 50, th.accent);
+  tft.setFont(&Orbitron_VariableFont_wght12pt7b);
+  tft.setTextColor(COLOR_RED);
+  tft.setTextSize(2);
+  tft.setCursor(411, 79);
+  tft.print("X");
+  tft.setFont();
+}
+
 void hidePopup() {
   popupVisible = false;
   popupMode = POPUP_NONE;
@@ -384,10 +437,11 @@ void hidePopup() {
   displayClock();
 }
 
-// ---------- Theme selection ----------
+// ---------- Automatic Theme selection times ----------
 int selectThemeIndex(int hour) {
   if (hour <= 5) return 4;
-  if (hour <= 10) return 9;
+  if (hour <= 10) return 1;
+  if (hour <= 14) return 2;
   if (hour <= 16) return 11;
   if (hour <= 18) return 15;
   if (hour <= 20) return 12;
@@ -432,6 +486,14 @@ void displayClock() {
           (const char *[]){ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }[weekday],
           (const char *[]){ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }[month - 1],
           day, year);
+
+
+  if (!setting_showWiFi) {
+    tft.setCursor(390, 15);
+    tft.setTextSize(2);
+    tft.setTextColor(RGB(0, 0, 220));
+    tft.print("[ABOUT]");
+  }
 
   if (setting_showWiFi) drawWiFiIndicator();
   if (setting_showWiFi) {
@@ -509,11 +571,11 @@ void handleTouch() {
 
       // LEFT COLUMN
       if (x >= 40 && x <= 200) {
-        if (y >= 100 && y < 140) currentThemeIndex = 0;   // Night
-        else if (y >= 140 && y < 180) currentThemeIndex = 2; // Day
-        else if (y >= 180 && y < 220) currentThemeIndex = 4; // Neon
-        else if (y >= 220 && y < 260) currentThemeIndex = 6; // Arctic
-        else if (y >= 260 && y < 300) currentThemeIndex = 8; // Custom1
+        if (y >= 100 && y < 140) currentThemeIndex = 0;       // Night
+        else if (y >= 140 && y < 180) currentThemeIndex = 2;  // Day
+        else if (y >= 180 && y < 220) currentThemeIndex = 4;  // Neon
+        else if (y >= 220 && y < 260) currentThemeIndex = 6;  // Arctic
+        else if (y >= 260 && y < 300) currentThemeIndex = 8;  // Custom1
         else goto skipTheme1;
 
         setting_autoTheme = false;
@@ -524,16 +586,15 @@ void handleTouch() {
 
       // RIGHT COLUMN
       if (x >= 240 && x <= 400) {
-        if (y >= 100 && y < 140) currentThemeIndex = 1;  // Morning
-        else if (y >= 140 && y < 180) currentThemeIndex = 3; // Evening
-        else if (y >= 180 && y < 220) currentThemeIndex = 5; // Sunset
-        else if (y >= 220 && y < 260) currentThemeIndex = 7; // Terminal
+        if (y >= 100 && y < 140) currentThemeIndex = 1;       // Morning
+        else if (y >= 140 && y < 180) currentThemeIndex = 3;  // Evening
+        else if (y >= 180 && y < 220) currentThemeIndex = 5;  // Sunset
+        else if (y >= 220 && y < 260) currentThemeIndex = 7;  // Terminal
         else if (y >= 260 && y < 300) {
           drawPopup2();  // More...
           wasTouched = touched;
           return;
-        }
-        else goto skipTheme1;
+        } else goto skipTheme1;
 
         setting_autoTheme = false;
         hidePopup();
@@ -582,11 +643,11 @@ skipSettings:;
 
       // LEFT COLUMN
       if (x >= 40 && x <= 200) {
-        if (y >= 100 && y < 140) currentThemeIndex = 9;   // Custom2
-        else if (y >= 140 && y < 180) currentThemeIndex = 11; // CyberBlue
-        else if (y >= 180 && y < 220) currentThemeIndex = 13; // RetroAmber
-        else if (y >= 220 && y < 260) currentThemeIndex = 15; // Vaporwave
-        else if (y >= 260 && y < 300) currentThemeIndex = 17; // Matrix
+        if (y >= 100 && y < 140) currentThemeIndex = 9;        // Custom2
+        else if (y >= 140 && y < 180) currentThemeIndex = 11;  // CyberBlue
+        else if (y >= 180 && y < 220) currentThemeIndex = 13;  // RetroAmber
+        else if (y >= 220 && y < 260) currentThemeIndex = 15;  // Vaporwave
+        else if (y >= 260 && y < 300) currentThemeIndex = 17;  // Matrix
         else goto skipTheme2;
 
         setting_autoTheme = false;
@@ -597,16 +658,15 @@ skipSettings:;
 
       // RIGHT COLUMN
       if (x >= 240 && x <= 400) {
-        if (y >= 100 && y < 140) currentThemeIndex = 10; // DeepSea
-        else if (y >= 140 && y < 180) currentThemeIndex = 12; // SolarStorm
-        else if (y >= 180 && y < 220) currentThemeIndex = 14; // IceFire
-        else if (y >= 220 && y < 260) currentThemeIndex = 16; // Synthwave
+        if (y >= 100 && y < 140) currentThemeIndex = 10;       // DeepSea
+        else if (y >= 140 && y < 180) currentThemeIndex = 12;  // SolarStorm
+        else if (y >= 180 && y < 220) currentThemeIndex = 14;  // IceFire
+        else if (y >= 220 && y < 260) currentThemeIndex = 16;  // Synthwave
         else if (y >= 260 && y < 300) {
           drawPopup();  // Back
           wasTouched = touched;
           return;
-        }
-        else goto skipTheme2;
+        } else goto skipTheme2;
 
         setting_autoTheme = false;
         hidePopup();
@@ -619,6 +679,23 @@ skipTheme2:;
 
     wasTouched = touched;
     return;
+  }
+
+  /*|------------------------------------------------------------------|
+  |---------------------- ABOUT BOX TOUCHY SPOTS --------------------|
+  |------------------------------------------------------------------|*/
+  if (x >= 300 && x <= 460 && y >= 0 && y <= 50) {
+    aboutBox();
+    wasTouched = touched;
+    return;
+  }
+  if (popupMode == ABOUT_BOX) {
+
+    if (x >= 400 && x <= 460 && y >= 50 && y <= 100) {
+      hidePopup();
+      wasTouched = touched;
+      return;
+    }
   }
 
   wasTouched = touched;
