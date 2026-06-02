@@ -470,9 +470,9 @@ void bootSeq() {
     lcd.setCursor(i, 0);
     lcd.write(byte(6));
     lcd.setCursor(i, 1);
+    lcd.write(byte(7));
     lcd.write(byte(6));
-    // lcd.write(byte(3));
-    lcd.print(F(" v"));
+    lcd.print(F("v"));
     lcd.print(VERSION);
     // lcd.write(byte(3));
     lcd.write(byte(6));
@@ -483,11 +483,11 @@ void bootSeq() {
     lcd.write(byte(7));
     lcd.write(byte(6));
     // lcd.print(F(" "));
-    delay(40);
+    delay(20);
     tone(BUZZER_PIN, 400 * i, 50);
   }
   // playVictory();
-  delay(2000);
+  delay(3000);
   lcd.clear();
 }
 
@@ -795,9 +795,10 @@ void loop() {
         if (btn == 2) {  // UP button
           // lcd.clear();
           lcd.setCursor(0, 0);
-          lcd.print(F("HOLD TO RESET"));
+          lcd.print(F(" HOLD TO RESET    "));
           lcd.setCursor(0, 1);
-          lcd.print(F("HIGH SCORE"));
+          lcd.print(F("   HIGH SCORE     "));
+          delay(100);
           if (!pd_resetPending) {
             pd_resetPending = true;
             pd_resetHoldStart = millis();
