@@ -52,23 +52,23 @@ const long TZ_OFFSET = -4L * 3600L;                     // EDT
 #define DKBROWN RGB(110, 60, 20)
 #define BLACK RGB(0, 0, 0)
 #define DEEPPURPLE RGB(40, 0, 25)
-#define BRONZE RGB(200, 150, 80)  // bronze
+#define BRONZE RGB(200, 150, 80)      // bronze
 #define NEONRED RGB(255, 50, 40);     // neon red
-#define NEONGREEN RGB(100, 255, 50);     // neon green
+#define NEONGREEN RGB(100, 255, 50);  // neon green
 
 //      --------------------
 // 💩   --- Clock Colors ---   💩
 //      --------------------
 uint16_t COL_BG = DKRED;
-uint16_t COL_ACC = WHITE;
-uint16_t COL_HOUR = AZURE;
-uint16_t COL_MIN = LTBLUE;
+uint16_t COL_ACC = RGB(197, 194, 197);
+uint16_t COL_HOUR = LTGREY;
+uint16_t COL_MIN = WHITE;
 uint16_t COL_SEC = RED;
-uint16_t COL_DIAL = RGB(230, 230, 230);
+uint16_t COL_DIAL = DARKGREY;
 uint16_t COL_FACE = DKBLUE;
 uint16_t COL_NUMBS = ARDUINO_GREEN;
 uint16_t COL_DIGITAL = NEONGREEN;
-uint16_t COL_TICKMK = ARDUINO_GREEN;
+uint16_t COL_TICKMK = GREY;
 uint16_t COL_LABEL = BRONZE;
 
 // uint16_t COL_BG = RGB(10, 10, 45);       // deep charcoal
@@ -129,10 +129,14 @@ void drawWiFiIcon(int x, int y, int strength) {
 void drawDial() {
   tft.fillScreen(COL_BG);
   // Outer ring
-  for (int i = 0; i < 8; i++)
-    tft.drawCircle(cx, cy, radius + i, COL_DIAL);
-    tft.fillCircle(cx, cy, radius + 2, COL_FACE);
 
+  for (int i = 0; i <= 8; i = i + 4)
+    tft.drawCircle(cx, cy, radius + i, COL_ACC);
+
+  for (int i = 2; i <= 8; i = i + 4)
+    tft.drawCircle(cx, cy, radius + i, COL_DIAL);
+
+  tft.fillCircle(cx, cy, radius + 2, COL_FACE);
   // Hour tick marks
   for (int h = 0; h < 12; h++) {
     float ang = deg2rad(h * 30.0f - 90.0f);
@@ -145,22 +149,22 @@ void drawDial() {
 }
 
 void eraseHands(const HandState& h) {
-  // tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.hx, h.hy, COL_FACE);
+  tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.hx, h.hy, COL_FACE);
   tft.drawLine(cx, cy, h.hx, h.hy, COL_FACE);
-  // tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.mx, h.my, COL_FACE);
+  tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.mx, h.my, COL_FACE);
   tft.drawLine(cx, cy, h.mx, h.my, COL_FACE);
-  // tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.sx, h.sy, COL_FACE);
+  tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.sx, h.sy, COL_FACE);
   tft.drawLine(cx, cy, h.sx, h.sy, COL_FACE);
-  // tft.fillCircle(cx, cy, 4, COL_BG);
+  tft.fillCircle(cx, cy, 4, COL_BG);
 }
 
 void drawHands(const HandState& h) {
   tft.drawLine(cx, cy, h.hx, h.hy, COL_HOUR);
-  // tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.hx, h.hy, COL_HOUR);
+  tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.hx, h.hy, COL_HOUR);
   tft.drawLine(cx, cy, h.mx, h.my, COL_MIN);
-  // tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.mx, h.my, COL_MIN);
+  tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.mx, h.my, COL_MIN);
   tft.drawLine(cx, cy, h.sx, h.sy, COL_SEC);
-  // tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.sx, h.sy, COL_SEC);
+  tft.drawTriangle(cx - 2, cy - 2, cx + 2, cy + 2, h.sx, h.sy, COL_SEC);
   tft.fillCircle(cx, cy, 4, COL_SEC);
 }
 
@@ -317,19 +321,6 @@ void loop() {
   tft.setTextSize(2);
   tft.setCursor(cx - 48, cy - radius + 65);
   tft.print("RUSSCLOX");
-  // Digital time under center
-  char buf[16];
-  // tft.fillRoundRect(cx - 78, cy + 40, 150, 35, 5, BRONZE);
-  // tft.fillRoundRect(cx - 73, cy + 45, 140, 25, 5, 110);
-  tft.setTextColor(COL_DIGITAL, COL_FACE);
-  tft.setTextSize(2);
-  tft.setCursor(cx - 30, cy + 68);
-  sprintf(buf, "%02d:%02d", hh, mm);
-  tft.print(buf);
-  tft.setTextColor(COL_SEC, COL_FACE);
-  tft.setTextSize(1);
-  sprintf(buf, " %02d", ss);
-  tft.print(buf);
   // Numbers
   tft.setTextColor(YELLOW);
   tft.setTextSize(4);
@@ -343,6 +334,20 @@ void loop() {
   tft.print("3");
   tft.setCursor(cx - 10, cy + radius - 45);
   tft.print("6");
+  // Digital time under center
+  char buf[16];
+  // tft.fillRoundRect(cx - 70, cy + 50, 155, 40, 5, BRONZE);
+  // tft.fillRoundRect(cx - 65, cy + 55, 145, 30, 5, COL_FACE);
+  tft.setTextColor(COL_DIGITAL, COL_FACE);
+  tft.setTextSize(3);
+  tft.setCursor(cx - 55, cy + 62);
+  sprintf(buf, "%02d:%02d", hh, mm);
+  tft.print(buf);
+  tft.setTextColor(COL_SEC, COL_FACE);
+  tft.setTextSize(2);
+  sprintf(buf, " %02d", ss);
+  tft.print(buf);
+
   // Inner tick marks
   for (int h = 0; h < 12; h++) {
     float ang = deg2rad(h * 30.0f - 90.0f);
@@ -352,6 +357,7 @@ void loop() {
     int16_t y2 = cy + (int16_t)((radius - 160) * sin(ang));
     tft.drawLine(x1, y1, x2, y2, DARKGREY);
   }
+
   for (int h = 0; h < 6; h++) {
     float ang = deg2rad(h * 60.0f - 90.0f);
     int16_t u1 = cx + (int16_t)((radius - 180) * cos(ang));
@@ -360,10 +366,12 @@ void loop() {
     int16_t v2 = cy + (int16_t)((radius - 190) * sin(ang));
     tft.drawLine(u1, v1, u2, v2, LTGREY);
   }
+
   HandState current = computeHands(hh, mm, ss);
   eraseHands(lastHand);
   drawHands(current);
   lastHand = current;
+
   // Draw WiFi icon + signal bars
   long rssi = WiFi.RSSI();
   int strength = 0;
@@ -377,5 +385,5 @@ void loop() {
   tft.print("rssi:");
   tft.setTextColor(WHITE, COL_BG);
   tft.print(rssi);
-  delay(20);
+  delay(2);
 }
