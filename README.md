@@ -1,25 +1,25 @@
 ## High-Level Overview: Arduino-Projects
 
-**Russ-McEwen/Arduino-Projects** is a public repository for Arduino sketch files. Here's what you need to know:
+**Russ-McEwen/Arduino-Projects** is a public repository for Arduino sketch files and embedded projects. Here's what you need to know:
 
 ### Key Details:
-- **Purpose**: Contains Arduino sketch files (embedded C/C++ code for microcontroller projects)
+- **Purpose**: A collection of Arduino sketch files containing embedded C/C++ code for microcontroller projects
 - **Language Composition**: 
   - C: 56.5%
   - C++: 43.5%
-- **Repository Stats**:
-  - Created: 4 days ago
-  - Last updated: 21 hours ago
-  - Size: ~7.7 MB
-  - Stars: 1
-  - No open issues
+- **Size**: ~7.7 MB
+- **Status**: Recently created (11 days ago), actively maintained with recent pushes
+- **Public & Open**: Supports collaborative development (forking, pull requests, and merge commits enabled)
 
-### Repository Features:
-- **Active Development**: Recent push activity (2026-06-02)
-- **Default Branch**: main
-- **Public & Open**: Allows forking and pull requests
-- **Standard Git Workflow**: Supports merge commits, rebase merges, and squash merges
+### Repository Contents:
+The repo includes several distinct Arduino projects:
+- **Huge_480x320_Analog_Clockface_NTP_RTC** - Large analog clock display with NTP and RTC functionality
+- **animated_2dice_rollerupdated** - Animated dice roller project
+- **photonDodge_v1** - A game-like project
+- **r4_TFT_BigTIme_WIFI_set_clock** - Big time display with WiFi and clock-setting capability
+- **r4_TFT_BigTIme_WIFI_set_clock_moremenus** - Enhanced version with additional menu options
+- **r4waveformgenerator** - Waveform generator project
+- **r4waveformgeneratorwithload** - Waveform generator with load support
 
-### What You'll Find:
-This appears to be a collection of Arduino projects in their early stages, with code written primarily in C and C++
-for microcontroller programming. The repository is set up for collaborative development with standard GitHub features enabled.
+### Summary:
+This is an early-stage collection of diverse Arduino projects ranging from display-driven applications (clocks, dice rollers) to utility projects (waveform generators). The code focuses on microcontroller applications with a mix of C and C++ implementations.
