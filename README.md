@@ -8,7 +8,7 @@
   - C: 56.5%
   - C++: 43.5%
 - **Size**: ~7.7 MB
-- **Status**: Recently created (11 days ago), actively maintained with recent pushes
+- **Status**: Recently created, actively maintained with recent pushes
 - **Public & Open**: Supports collaborative development (forking, pull requests, and merge commits enabled)
 
 ### Repository Contents:
