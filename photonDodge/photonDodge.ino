@@ -366,13 +366,13 @@ const byte Diamond[8] PROGMEM = {
 };
 
 const byte pd_shipChar[8] PROGMEM = {
-  B11111,
-  B00100,
+  B01111,
+  B01100,
   B11110,
   B11111,
   B11110,
-  B00100,
-  B11111,
+  B01100,
+  B01111,
   0
 };
 
