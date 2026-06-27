@@ -113,7 +113,7 @@ const int DAC_PIN = A0;
 const int TABLE_SIZE = 128;
 const uint32_t SAMPLE_PERIOD_US = 20;
 
-const uint32_t AUTO_SWITCH_INTERVAL_MS = 5000;
+const uint32_t AUTO_SWITCH_INTERVAL_MS = 5000; //<-------- 5000 = 5sec
 const int WAVEFORM_COUNT = 27;
 
 const int BUTTON_PIN = A5;
@@ -817,7 +817,7 @@ void loop() {
   // INTRO PHASE — one‑shot slow scroll
   if (introScrollActive) {
     if (!introScrollStarted) {
-      startScroll("Russ Made ;) - Made in USA");
+      startScroll("27 Waveform Generator for UNO-R4-WIFI");
       scrollPosition = matrix.width();
       introScrollStarted = true;
     }
