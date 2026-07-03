@@ -4,6 +4,7 @@
   |            + Press [SELECT] to start                              |
   |            + Press [UP]/[DOWN] to avoid the  photons              |
   |            + Press [LEFT] to return to Title screen               |
+  |            + From title screen, press [UP] to reset high score.   |
   |            + Connect a buzzer to pin 3 for sound!                 |
   |                          ===========                              |
   |───────────────────────────────────────────────────────────────────|
